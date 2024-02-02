@@ -1,5 +1,5 @@
 import tl = require("azure-pipelines-task-lib/task");
-import { installCypress } from "./useCypress.ts/useCypress";
+import { installCypress } from "./installCypress/installCypress";
 
 async function run() {
   try {

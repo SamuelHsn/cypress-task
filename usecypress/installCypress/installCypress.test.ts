@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, vitest } from "vitest";
-import { installCypress } from "./useCypress";
+import { installCypress } from "./installCypress";
 import * as taskLib from "azure-pipelines-task-lib/task";
 import * as toolLib from "azure-pipelines-tool-lib/tool";
 //mock tasklib and toollib with vittest
@@ -8,10 +8,12 @@ vi.mock("azure-pipelines-task-lib/task", () => ({
   getInput: vi.fn(),
   setVariable: vi.fn(),
   setResult: vi.fn(),
+  debug: vi.fn(),
   loc: vi.fn(),
   TaskResult: {
     Failed: "failed",
   },
+  getVariable: vi.fn(() => "tempDirectory"),
 }));
 vi.mock("azure-pipelines-tool-lib/tool", () => ({
   downloadTool: vi.fn(),
@@ -38,9 +40,9 @@ describe("Install Cypress", () => {
     const result = await installCypress();
     expect(taskLib.setVariable).toHaveBeenCalledWith(
       "CYPRESS_CACHE_FOLDER",
-      "extractRoot"
+      "tempDirectory\\cypress"
     );
-    expect(toolLib.extractZip).toHaveBeenCalledWith("temp");
+    expect(toolLib.extractZip).toHaveBeenCalledWith("temp","tempDirectory\\cypress\\version");
   });
 
   test("should catch error and call setResult with TaskResult.Failed", async () => {

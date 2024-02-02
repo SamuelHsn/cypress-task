@@ -6,10 +6,10 @@
   "description": "Allow to install binary of Cypress in a pipeline and add environment variable to use it",
   "helpMarkDown": "",
   "category": "Utility",
-  "author": "{{taskauthor}}",
+  "author": "Samuel Husein",
   "version": {
     "Major": 0,
-    "Minor": 1,
+    "Minor": 5,
     "Patch": 0
   },
   "instanceNameFormat": "Installing Cypress $(version)",
@@ -32,8 +32,9 @@
     }
   ],
   "execution": {
-    "Node": {
+    "Node16": {
       "target": "index.js"
+      
     }
   }
 }

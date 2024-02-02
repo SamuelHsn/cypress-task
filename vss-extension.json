@@ -1,0 +1,32 @@
+{
+  "manifestVersion": 1,
+  "id": "use-cypress-task",
+  "name": "Use Cypress",
+  "version": "0.5.0",
+  "publisher": "SamuelHsn",
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "task to install cypress binary and add CYPRESS CACHE FOLDER variable in pipeline",
+  "categories": ["Azure Pipelines"],
+  "icons": {
+    "default": "images/cypress.png"
+  },
+  "files": [
+    {
+      "path": "dist"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "use-cypress-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "dist"
+      }
+    }
+  ]
+}

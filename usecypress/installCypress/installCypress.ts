@@ -7,7 +7,7 @@ export async function installCypress() {
   try {
     const version: string = taskLib.getInput("version", true)!;
     const platform = taskLib.getInput("platform", true);
-
+    const tempDirectory = taskLib.getVariable("Agent.TempDirectory")!;
     const platformString =
       platform === "win32"
         ? "?platform=win32&arch=x64"
@@ -17,13 +17,26 @@ export async function installCypress() {
     }`;
 
     const temp: string = await toolLib.downloadTool(cypressUrl);
-    const extractRoot: string = await toolLib.extractZip(temp);
-
-    taskLib.setVariable("CYPRESS_CACHE_FOLDER", path.join(extractRoot));
+    taskLib.debug(`Downloaded Cypress to ${temp}`);
+    const extractRoot: string = await toolLib.extractZip(
+      temp,
+      path.join(tempDirectory, "cypress", version)
+    );
+    taskLib.debug(`Extracted Cypress to ${extractRoot}`);
+    taskLib.setVariable(
+      "CYPRESS_CACHE_FOLDER",
+      path.join(tempDirectory, "cypress")
+    );
+    taskLib.debug(
+      `Set CYPRESS_CACHE_FOLDER to ${path.join(tempDirectory, "cypress")}`
+    );
   } catch (err) {
     taskLib.setResult(
       taskLib.TaskResult.Failed,
-      taskLib.loc("CypressInstallerFailed", (err as { message: string }).message)
+      taskLib.loc(
+        "CypressInstallerFailed",
+        (err as { message: string }).message
+      )
     );
   }
 }
