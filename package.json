@@ -4,7 +4,12 @@
   "description": "A cypress task to have cypress binary on build/release pipeline agent ",
   "main": "dist/index.js",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "prebuild": "npm run clear",
+    "build": "tsc --project tsconfig.build.json && cp usecypress/task.json dist",
+    "postbuild": "postbuild.sh",
+    "package": "tfx extension create --manifest-globs vss-extension.json",
+    "clear": "rm -rf dist"
   },
   "author": "",
   "license": "ISC",
